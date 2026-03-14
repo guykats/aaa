@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temple3 – Sacred Streetwear</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Heebo:wght@300;400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-links">
+        <a href="#products">קולקציה</a>
+        <a href="#about">אודות</a>
+        <a href="#contact">צור קשר</a>
+      </div>
+      <div class="logo">
+        <span class="logo-temple">TEMPLE</span><span class="logo-3">3</span>
+      </div>
+      <div class="nav-cart" onclick="toggleCart()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg">
+      <svg class="menorah-hero" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#d4a843" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#d4a843" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5d080"/>
+            <stop offset="50%" stop-color="#d4a843"/>
+            <stop offset="100%" stop-color="#a07830"/>
+          </linearGradient>
+          <filter id="blur">
+            <feGaussianBlur stdDeviation="8"/>
+          </filter>
+        </defs>
+        <!-- glow background -->
+        <circle cx="150" cy="140" r="100" fill="url(#glow)" filter="url(#blur)"/>
+        <!-- base -->
+        <rect x="115" y="255" width="70" height="8" rx="4" fill="url(#goldGrad)"/>
+        <rect x="130" y="235" width="40" height="22" rx="3" fill="url(#goldGrad)"/>
+        <!-- stem -->
+        <rect x="148" y="140" width="4" height="97" fill="url(#goldGrad)"/>
+        <!-- arms -->
+        <!-- left outer -->
+        <path d="M150 200 Q110 200 108 160" stroke="url(#goldGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- left inner -->
+        <path d="M150 200 Q125 200 123 168" stroke="url(#goldGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- right inner -->
+        <path d="M150 200 Q175 200 177 168" stroke="url(#goldGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- right outer -->
+        <path d="M150 200 Q190 200 192 160" stroke="url(#goldGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- candles -->
+        <rect x="107" y="140" width="4" height="22" rx="2" fill="url(#goldGrad)"/>
+        <rect x="122" y="148" width="4" height="22" rx="2" fill="url(#goldGrad)"/>
+        <rect x="148" y="118" width="4" height="24" rx="2" fill="url(#goldGrad)"/>
+        <rect x="174" y="148" width="4" height="22" rx="2" fill="url(#goldGrad)"/>
+        <rect x="189" y="140" width="4" height="22" rx="2" fill="url(#goldGrad)"/>
+        <!-- flames -->
+        <ellipse cx="109" cy="137" rx="3.5" ry="6" fill="#f5d080" opacity="0.95"/>
+        <ellipse cx="109" cy="135" rx="2" ry="4" fill="white" opacity="0.7"/>
+        <ellipse cx="124" cy="145" rx="3.5" ry="6" fill="#f5d080" opacity="0.95"/>
+        <ellipse cx="124" cy="143" rx="2" ry="4" fill="white" opacity="0.7"/>
+        <ellipse cx="150" cy="115" rx="3.5" ry="6" fill="#f5d080" opacity="0.95"/>
+        <ellipse cx="150" cy="113" rx="2" ry="4" fill="white" opacity="0.7"/>
+        <ellipse cx="176" cy="145" rx="3.5" ry="6" fill="#f5d080" opacity="0.95"/>
+        <ellipse cx="176" cy="143" rx="2" ry="4" fill="white" opacity="0.7"/>
+        <ellipse cx="191" cy="137" rx="3.5" ry="6" fill="#f5d080" opacity="0.95"/>
+        <ellipse cx="191" cy="135" rx="2" ry="4" fill="white" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <p class="hero-sub">SACRED STREETWEAR</p>
+      <h1 class="hero-title">TEMPLE<span class="gold">3</span></h1>
+      <p class="hero-desc">מרצנדייס גרפי בהשראת בית המקדש.<br/>עיצובים בבינה מלאכותית. לבוש שנושא היסטוריה.</p>
+      <a href="#products" class="btn-hero">גלה את הקולקציה</a>
+    </div>
+    <div class="hero-scroll">
+      <span>גלול למטה</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- MARQUEE BAND -->
+  <div class="marquee-band">
+    <div class="marquee-inner">
+      <span>TEMPLE3</span><span>✦</span>
+      <span>בית המקדש</span><span>✦</span>
+      <span>SACRED STREETWEAR</span><span>✦</span>
+      <span>AI DESIGNED</span><span>✦</span>
+      <span>TEMPLE3</span><span>✦</span>
+      <span>מנורת הזהב</span><span>✦</span>
+      <span>HOLY MERCH</span><span>✦</span>
+      <span>JERUSALEM</span><span>✦</span>
+      <span>TEMPLE3</span><span>✦</span>
+      <span>בית המקדש</span><span>✦</span>
+      <span>SACRED STREETWEAR</span><span>✦</span>
+      <span>AI DESIGNED</span><span>✦</span>
+      <span>TEMPLE3</span><span>✦</span>
+      <span>מנורת הזהב</span><span>✦</span>
+      <span>HOLY MERCH</span><span>✦</span>
+      <span>JERUSALEM</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip" id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2>מי אנחנו</h2>
+        <p>Temple3 הוא מותג אופנה שמתנתק ממוסכמות. אנחנו לוקחים את הסמלים העתיקים של בית המקדש – המנורה, ארון הברית, הכרובים, העמודים – ומתרגמים אותם לעיצובים גרפיים חדשניים בעזרת בינה מלאכותית. כל פריט הוא חיבור בין עולם עתיק לסטריטוור עכשווי.</p>
+      </div>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🏛️</div>
+          <h3>מקורי</h3>
+          <p>השראה מבית המקדש השני</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">✨</div>
+          <h3>AI מעוצב</h3>
+          <p>כל גרפיקה נוצרה בבינה מלאכותית</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🧵</div>
+          <h3>איכותי</h3>
+          <p>הדפסה פרימיום על בדים כבדים</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section" id="products">
+    <div class="section-header">
+      <p class="section-sub">COLLECTION 001</p>
+      <h2>הקולקציה</h2>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- FEATURED LOOKBOOK -->
+  <section class="lookbook">
+    <div class="lookbook-inner">
+      <div class="lookbook-text">
+        <p class="section-sub">LOOKBOOK</p>
+        <h2>לבש את ההיסטוריה</h2>
+        <p>כל עיצוב מספר סיפור. מהמנורה שהאירה את ההיכל ועד לכרובים ששמרו על ארון הברית – לבישת Temple3 היא מעשה של זיכרון.</p>
+        <a href="#products" class="btn-outline">ראה את כל הפריטים</a>
+      </div>
+      <div class="lookbook-visual">
+        <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" class="lookbook-svg">
+          <defs>
+            <linearGradient id="tshirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0d0d0d"/>
+            </linearGradient>
+            <linearGradient id="designGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f5d080"/>
+              <stop offset="50%" stop-color="#d4a843"/>
+              <stop offset="100%" stop-color="#a07830"/>
+            </linearGradient>
+          </defs>
+          <!-- T-shirt shape -->
+          <path d="M100 80 L60 130 L100 145 L100 380 L300 380 L300 145 L340 130 L300 80 L260 100 Q200 120 140 100 Z" fill="url(#tshirtGrad)" stroke="#333" stroke-width="2"/>
+          <!-- Collar -->
+          <path d="M140 100 Q200 140 260 100" fill="none" stroke="#444" stroke-width="2"/>
+          <!-- Menorah design on shirt -->
+          <g transform="translate(200, 230) scale(0.9)">
+            <!-- base -->
+            <rect x="-35" y="85" width="70" height="6" rx="3" fill="url(#designGold)"/>
+            <rect x="-20" y="68" width="40" height="19" rx="2" fill="url(#designGold)"/>
+            <!-- stem -->
+            <rect x="-2" y="10" width="4" height="60" fill="url(#designGold)"/>
+            <!-- arms -->
+            <path d="M0 55 Q-40 55 -42 20" stroke="url(#designGold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M0 55 Q-22 55 -24 28" stroke="url(#designGold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M0 55 Q22 55 24 28" stroke="url(#designGold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M0 55 Q40 55 42 20" stroke="url(#designGold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- candles -->
+            <rect x="-44" y="-2" width="4" height="24" rx="2" fill="url(#designGold)"/>
+            <rect x="-26" y="6" width="4" height="24" rx="2" fill="url(#designGold)"/>
+            <rect x="-2" y="-10" width="4" height="22" rx="2" fill="url(#designGold)"/>
+            <rect x="22" y="6" width="4" height="24" rx="2" fill="url(#designGold)"/>
+            <rect x="40" y="-2" width="4" height="24" rx="2" fill="url(#designGold)"/>
+            <!-- flames -->
+            <ellipse cx="-42" cy="-5" rx="3" ry="5" fill="#f5d080" opacity="0.9"/>
+            <ellipse cx="-24" cy="3" rx="3" ry="5" fill="#f5d080" opacity="0.9"/>
+            <ellipse cx="0" cy="-13" rx="3" ry="5" fill="#f5d080" opacity="0.9"/>
+            <ellipse cx="24" cy="3" rx="3" ry="5" fill="#f5d080" opacity="0.9"/>
+            <ellipse cx="42" cy="-5" rx="3" ry="5" fill="#f5d080" opacity="0.9"/>
+          </g>
+          <!-- Brand text on shirt -->
+          <text x="200" y="145" text-anchor="middle" font-family="Cinzel" font-size="18" fill="#d4a843" letter-spacing="4">TEMPLE3</text>
+          <text x="200" y="162" text-anchor="middle" font-family="Cinzel" font-size="8" fill="#888" letter-spacing="3">SACRED STREETWEAR</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>העגלה שלך</h3>
+      <button onclick="toggleCart()" class="cart-close">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">העגלה ריקה</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>סה"כ</span>
+        <span id="cartTotal">₪0</span>
+      </div>
+      <button class="btn-checkout">המשך לתשלום</button>
+    </div>
+  </aside>
+
+  <!-- SIZE MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-inner" id="modalInner"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-temple">TEMPLE</span><span class="logo-3">3</span>
+        <p>SACRED STREETWEAR</p>
+      </div>
+      <div class="footer-links">
+        <h4>ניווט</h4>
+        <a href="#products">קולקציה</a>
+        <a href="#about">אודות</a>
+        <a href="#">מדיניות החזרות</a>
+        <a href="#">תנאי שימוש</a>
+      </div>
+      <div class="footer-social">
+        <h4>עקוב אחרינו</h4>
+        <div class="social-links">
+          <a href="#" class="social-btn">Instagram</a>
+          <a href="#" class="social-btn">TikTok</a>
+          <a href="#" class="social-btn">Pinterest</a>
+        </div>
+        <p class="newsletter-label">הירשם לניוזלטר</p>
+        <form class="newsletter-form" onsubmit="return false">
+          <input type="email" placeholder="האימייל שלך" />
+          <button type="submit">הרשמה</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Temple3. כל הזכויות שמורות. עוצב בישראל 🇮🇱</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
