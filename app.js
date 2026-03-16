@@ -12,63 +12,63 @@ const products = [
     sub: "חולצת אוברסייז – מנורה",
     price: 249,
     badge: "BESTSELLER",
-    desc: "חולצת אוברסייז כבדה 320gsm עם הדפס גרפי של מנורת המקדש שעוצבה בבינה מלאכותית. צבע שחור עמוק. הדפסה DTF מלאה.",
+    desc: "חולצת אוברסייז כבדה 320gsm עם הדפס גרפי של מנורת המקדש שעוצבה בבינה מלאכותית. צבע שחור עמוק. הדפסה DTF מלאה. 100% כותנה פרמיום.",
     sizes: ["XS","S","M","L","XL","XXL"],
     color: "#d4a843",
     svgType: "menorah",
   },
   {
     id: 2,
-    name: "HOLY OF HOLIES HOODIE",
-    sub: "הודי – קודש הקודשים",
-    price: 399,
-    badge: "NEW",
-    desc: "הודי פרמיום 400gsm עם אמנות גנרטיבית של קודש הקודשים. כיס קנגורו. קלוש רחב. 100% כותנה אורגנית.",
-    sizes: ["S","M","L","XL","XXL"],
-    color: "#a07830",
-    svgType: "arch",
-  },
-  {
-    id: 3,
     name: "CHERUBIM GRAPHIC TEE",
-    sub: "חולצה – הכרובים",
+    sub: "חולצה גרפית – הכרובים",
     price: 219,
     badge: null,
-    desc: "חולצה עם גרפיקת כרובים בסגנון עכשווי. הדפס חזה + גב מלא. בד premium 280gsm.",
+    desc: "חולצת טי קצרה עם גרפיקת כרובים בסגנון סטריטוור עכשווי. הדפס חזה + גב מלא. בד premium 280gsm. נוחות מקסימלית.",
     sizes: ["XS","S","M","L","XL"],
     color: "#f5d080",
     svgType: "wings",
   },
   {
+    id: 3,
+    name: "TEMPLE GATES TEE",
+    sub: "חולצה – שערי המקדש",
+    price: 239,
+    badge: "NEW",
+    desc: "חולצת טי קצרה עם אמנות גנרטיבית של שערי קודש הקודשים. גרפיקת ארק מפורטת. 100% כותנה אורגנית 300gsm. חתוך ישר.",
+    sizes: ["XS","S","M","L","XL","XXL"],
+    color: "#a07830",
+    svgType: "arch",
+  },
+  {
     id: 4,
-    name: "ARK OF THE COVENANT CREWNECK",
-    sub: "קרוניק – ארון הברית",
-    price: 349,
+    name: "ARK EDITION TEE",
+    sub: "חולצה – ארון הברית",
+    price: 259,
     badge: "LIMITED",
-    desc: "קרוניק כבד 380gsm עם ציור דיגיטלי מפורט של ארון הברית. אדגינג זהב. מהדורה מוגבלת של 100 יחידות.",
+    desc: "חולצת טי קצרה עם ציור דיגיטלי מפורט של ארון הברית וכרובי הזהב. מהדורה מוגבלת 100 יחידות. הדפסה DTF כפולה חזה וגב.",
     sizes: ["S","M","L","XL"],
     color: "#d4a843",
     svgType: "ark",
   },
   {
     id: 5,
-    name: "JERUSALEM SKYLINE LONG-SLEEVE",
-    sub: "שרוול ארוך – קו רקיע ירושלים",
-    price: 279,
+    name: "JERUSALEM SKYLINE TEE",
+    sub: "חולצה – קו רקיע ירושלים",
+    price: 229,
     badge: null,
-    desc: "שרוול ארוך עם גרפיקת קו רקיע ירושלים שכוללת את בית המקדש השלם. רקמה על השרוול.",
+    desc: "חולצת טי קצרה עם גרפיקת קו רקיע ירושלים הכוללת את בית המקדש השלם. עיצוב פנורמי. 280gsm בד כבד.",
     sizes: ["XS","S","M","L","XL","XXL"],
     color: "#c8a060",
     svgType: "skyline",
   },
   {
     id: 6,
-    name: "SACRED GEOMETRY CAP",
-    sub: "כובע – גיאומטריה קדושה",
-    price: 159,
+    name: "SACRED SEAL TEE",
+    sub: "חולצה – חותם שלמה",
+    price: 219,
     badge: "NEW",
-    desc: "כובע 6-פנל עם רקמת גיאומטריה קדושה מבית המקדש. בד ניילון כבד. מידת ראש מתכווננת.",
-    sizes: ["ONE SIZE"],
+    desc: "חולצת טי קצרה עם חותם שלמה וגיאומטריה קדושה מבית המקדש. עיצוב מינימליסטי ועוצמתי. 280gsm כותנה פרמיום.",
+    sizes: ["XS","S","M","L","XL","XXL"],
     color: "#d4a843",
     svgType: "star",
   },
@@ -385,25 +385,21 @@ function showToast(msg) {
 function renderProducts() {
   const grid = document.getElementById("productsGrid");
   grid.innerHTML = products.map(p => `
-    <div class="product-card" onclick="openModal(products.find(x=>x.id===${p.id}))">
-      <div class="product-image">
+    <div class="product-card">
+      <div class="product-image" onclick="openModal(products.find(x=>x.id===${p.id}))">
         ${getProductSVG(p.svgType, p.color, 180)}
         ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ""}
-        <div class="product-overlay">
-          <button class="overlay-btn" onclick="event.stopPropagation(); openModal(products.find(x=>x.id===${p.id}))">
-            בחר מידה
-          </button>
-        </div>
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-sub">${p.sub}</div>
-        <div class="product-footer">
+        <div class="product-price-row">
           <span class="product-price">₪${p.price.toLocaleString()}</span>
-          <div class="product-sizes">
-            ${p.sizes.slice(0, 4).map(() => '<div class="size-dot"></div>').join("")}
-          </div>
+          <span class="product-sizes-label">${p.sizes.slice(0,5).join(" · ")}</span>
         </div>
+        <button class="btn-card-cta" onclick="openModal(products.find(x=>x.id===${p.id}))">
+          בחר מידה והוסף לעגלה
+        </button>
       </div>
     </div>
   `).join("");
