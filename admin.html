@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TEMPLE3 · ניהול</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Heebo:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body>
+
+<!-- ── LOGIN ─────────────────────────────────────────── -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <span class="ll-brand">TEMPLE3</span>
+      <span class="ll-tag">ADMIN</span>
+    </div>
+    <div id="loginErr" class="login-err hidden">סיסמה שגויה. נסה שנית.</div>
+    <input type="password" id="passInput" class="login-input" placeholder="סיסמה"/>
+    <button id="loginBtn" class="btn-login">כניסה</button>
+  </div>
+</div>
+
+<!-- ── ADMIN SHELL ────────────────────────────────────── -->
+<div id="adminShell" class="admin-shell hidden">
+
+  <header class="topbar">
+    <div class="topbar-logo">
+      <span class="tl-brand">TEMPLE3</span>
+      <span class="tl-sep">|</span>
+      <span class="tl-admin">ADMIN PANEL</span>
+    </div>
+    <div class="topbar-right">
+      <a href="index.html" target="_blank" class="topbar-link">צפה בחנות ↗</a>
+      <button id="logoutBtn" class="btn-ghost-xs">יציאה</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+
+    <!-- SIDEBAR: product list -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <button id="newProductBtn" class="btn-new">
+          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          מוצר חדש
+        </button>
+      </div>
+      <div class="sidebar-label">כל המוצרים</div>
+      <div id="sidebarList" class="sidebar-list"></div>
+    </aside>
+
+    <!-- EDITOR: form -->
+    <main class="editor-main">
+      <div id="editorEmpty" class="editor-empty">
+        <div class="empty-glyph">◈</div>
+        <p>בחר מוצר לעריכה<br/>או צור מוצר חדש</p>
+      </div>
+      <div id="editorForm" class="editor-form hidden"></div>
+    </main>
+
+    <!-- PREVIEW: live shirt -->
+    <aside class="preview-panel">
+      <div class="preview-label">תצוגה מקדימה</div>
+      <div id="previewShirt" class="preview-shirt"></div>
+      <div id="previewMeta" class="preview-meta"></div>
+      <div class="preview-note">מתעדכן בזמן אמת</div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- ── DELETE CONFIRM ─────────────────────────────────── -->
+<div id="deleteOverlay" class="del-overlay hidden">
+  <div class="del-box">
+    <h3>מחיקת מוצר</h3>
+    <p>האם למחוק את המוצר לצמיתות? פעולה זו לא ניתנת לביטול.</p>
+    <div class="del-actions">
+      <button id="cancelDeleteBtn" class="btn-ghost-sm">ביטול</button>
+      <button id="confirmDeleteBtn" class="btn-danger">מחק</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────── -->
+<div id="adminToast" class="admin-toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

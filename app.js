@@ -4,8 +4,9 @@
    ========================================= */
 
 // ─── PRODUCT DATA ────────────────────────────────────────────────────────────
+// Load from admin localStorage if available, otherwise use defaults
 
-const products = [
+let products = [
   {
     id: 1,
     name: "MENORAH OVERSIZED TEE",
@@ -464,6 +465,19 @@ window.addEventListener("scroll", () => {
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Sync with admin panel – load products saved via admin if present
+  const stored = localStorage.getItem("t3_products");
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      // Only replace if it's a valid non-empty array
+      if (Array.isArray(parsed) && parsed.length) {
+        products.length = 0;
+        parsed.forEach(p => products.push(p));
+      }
+    } catch (e) { /* ignore corrupt data */ }
+  }
+
   renderProducts();
   updateCartBadge();
 
