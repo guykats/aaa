@@ -404,13 +404,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--dark);
+  background: #e8e3d8;
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
 
-.product-image:hover { background: #0e0e0e; }
+.product-image:hover { background: #dfd9cc; }
 
 .product-image svg {
   width: 92%;
@@ -638,7 +638,7 @@ body {
 .cart-item-img {
   width: 80px;
   height: 96px;
-  background: var(--dark);
+  background: #e8e3d8;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -801,7 +801,7 @@ body {
 }
 
 .modal-img {
-  background: var(--dark);
+  background: #e8e3d8;
   display: flex;
   align-items: center;
   justify-content: center;
