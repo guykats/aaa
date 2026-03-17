@@ -230,6 +230,98 @@ function getProductSVG(svgType, color, size = 200) {
   </svg>`;
 }
 
+// ─── SHIRT PREVIEW WITH UPLOADED IMAGES ──────────
+function getShirtPreview(logoImg, graphicImg, size = 190) {
+  const uid = Math.random().toString(36).slice(2, 8);
+  const showGraphicFront = !!(graphicImg && editGraphicPlac === 'front');
+  const showLogoFront    = !!(logoImg    && editLogoPlac    === 'front');
+  const showGraphicBack  = !!(graphicImg && editGraphicPlac === 'back');
+  const showLogoBack     = !!(logoImg    && editLogoPlac    === 'back');
+
+  let overlays = '';
+  if (showGraphicFront && showLogoFront) {
+    // Logo small at top-center, graphic fills main body below
+    overlays += `<image href="${logoImg}" x="115" y="113" width="70" height="34" preserveAspectRatio="xMidYMid meet"/>`;
+    overlays += `<image href="${graphicImg}" x="88" y="150" width="124" height="106" preserveAspectRatio="xMidYMid meet"/>`;
+  } else if (showGraphicFront) {
+    overlays += `<image href="${graphicImg}" x="82" y="108" width="136" height="136" clip-path="url(#cc_${uid})" preserveAspectRatio="xMidYMid meet"/>`;
+  } else if (showLogoFront) {
+    overlays += `<image href="${logoImg}" x="100" y="138" width="100" height="80" preserveAspectRatio="xMidYMid meet"/>`;
+  }
+
+  // Back-placement labels
+  const backItems = [];
+  if (showGraphicBack) backItems.push('גרפיקה – אחורה');
+  if (showLogoBack)    backItems.push('לוגו – אחורה');
+  backItems.forEach((label, i) => {
+    overlays += `<text x="150" y="${262 + i * 14}" text-anchor="middle"
+      font-family="Heebo,sans-serif" font-size="9" fill="#444">${label}</text>`;
+  });
+
+  // Empty-state placeholder
+  if (!showGraphicFront && !showLogoFront) {
+    overlays += `
+      <rect x="88" y="118" width="124" height="124" rx="4"
+        fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)"
+        stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="150" y="173" text-anchor="middle"
+        font-family="Heebo,sans-serif" font-size="9" fill="#383838">העלה לוגו</text>
+      <text x="150" y="186" text-anchor="middle"
+        font-family="Heebo,sans-serif" font-size="9" fill="#383838">או גרפיקה</text>`;
+  }
+
+  return `<svg viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink" width="${size}" height="${size}">
+    <defs>
+      <linearGradient id="sb_${uid}" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#101010"/>
+        <stop offset="38%"  stop-color="#1d1d1d"/>
+        <stop offset="62%"  stop-color="#1d1d1d"/>
+        <stop offset="100%" stop-color="#101010"/>
+      </linearGradient>
+      <linearGradient id="sl_${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#181818"/>
+        <stop offset="100%" stop-color="#0c0c0c"/>
+      </linearGradient>
+      <filter id="ds_${uid}" x="-15%" y="-10%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="5" stdDeviation="9" flood-color="#000" flood-opacity="0.6"/>
+      </filter>
+      <clipPath id="cc_${uid}">
+        <rect x="82" y="108" width="136" height="136" rx="2"/>
+      </clipPath>
+    </defs>
+    <g filter="url(#ds_${uid})">
+      <path d="M 107 28 C 123 60 177 60 193 28 L 234 41 L 278 57 L 269 99 L 243 111 L 245 234 L 241 346 Q 150 354 59 346 L 55 234 L 57 111 L 31 99 L 22 57 L 66 41 Z"
+        fill="url(#sb_${uid})"/>
+    </g>
+    <path d="M 66 41 L 22 57 L 31 99 L 57 111 Z" fill="url(#sl_${uid})"/>
+    <path d="M 234 41 L 278 57 L 269 99 L 243 111 Z" fill="url(#sl_${uid})"/>
+    <path d="M 110 32 C 125 54 175 54 190 32" fill="none" stroke="#2c2c2c" stroke-width="1.8"/>
+    <line x1="57"  y1="111" x2="31"  y2="99"  stroke="#1e1e1e" stroke-width="1.2"/>
+    <line x1="243" y1="111" x2="269" y2="99"  stroke="#1e1e1e" stroke-width="1.2"/>
+    <line x1="59"  y1="346" x2="55"  y2="111" stroke="rgba(0,0,0,0.22)" stroke-width="5"/>
+    <line x1="241" y1="346" x2="245" y2="111" stroke="rgba(0,0,0,0.22)" stroke-width="5"/>
+    <path d="M 143 111 L 141 346" stroke="rgba(255,255,255,0.028)" stroke-width="14"/>
+    <path d="M 59 346 Q 150 354 241 346" fill="none" stroke="#272727" stroke-width="1.5"/>
+    ${overlays}
+  </svg>`;
+}
+
+// ─── LOADING STATE ────────────────────────────────
+let loadingCount = 0;
+function showPreviewLoading() {
+  loadingCount++;
+  document.getElementById('previewLoadingBar')?.classList.remove('hidden');
+  document.getElementById('previewShirt')?.classList.add('loading');
+}
+function hidePreviewLoading() {
+  loadingCount = Math.max(0, loadingCount - 1);
+  if (loadingCount === 0) {
+    document.getElementById('previewLoadingBar')?.classList.add('hidden');
+    document.getElementById('previewShirt')?.classList.remove('loading');
+  }
+}
+
 // ─── AUTH ─────────────────────────────────────────
 function checkAuth() {
   if (localStorage.getItem(AUTH_KEY) === '1') showAdmin();
@@ -473,32 +565,7 @@ function buildEditorHTML(p) {
       </div>
     `)}
 
-    <!-- 4. SHIRT DESIGN (SVG) -->
-    ${buildSection('design', '🎨', 'עיצוב החולצה', `
-      <div class="field-row">
-        <label class="field-label">סוג גרפיקה</label>
-        <div class="svg-type-grid" id="svgTypeGrid">
-          ${SVG_TYPES.map(t => `
-            <div class="svg-type-card${editSvgType===t?' active':''}" onclick="setSvgType('${t}',this)"
-                 data-type="${t}">
-              ${getProductSVG(t, p.color || '#d4a843', 70)}
-              <span class="svg-label">${SVG_LABELS[t]}</span>
-            </div>`).join('')}
-        </div>
-      </div>
-      <div class="field-row">
-        <label class="field-label">צבע גרפיקה</label>
-        <div class="design-color-row">
-          <input type="color" id="f-color-picker" class="design-color-picker"
-            value="${p.color||'#d4a843'}" oninput="onDesignColorChange(this.value)"/>
-          <input type="text" id="f-color-hex" class="design-color-hex"
-            value="${p.color||'#d4a843'}" maxlength="7" placeholder="#d4a843"
-            oninput="onDesignHexChange(this.value)" onblur="validateHex()"/>
-        </div>
-      </div>
-    `)}
-
-    <!-- 5. LOGO & GRAPHIC -->
+    <!-- 4. LOGO & GRAPHIC -->
     ${buildSection('media-design', '🖼', 'לוגו וגרפיקה', `
       <div class="field-row">
         <label class="field-label">לוגו מותג</label>
@@ -778,25 +845,26 @@ function removeImage(i) {
 function handleLogoUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
+  showPreviewLoading();
   const reader = new FileReader();
   reader.onload = e => {
     editLogoImg = e.target.result;
     const prev = document.getElementById('logoPreview');
     if (prev) prev.innerHTML = `<img src="${editLogoImg}" alt="logo"/>`;
-    // Show remove button
-    refreshAssetControls('logo');
+    setTimeout(() => { hidePreviewLoading(); updatePreview(); }, 500);
   };
   reader.readAsDataURL(file);
 }
 function handleGraphicUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
+  showPreviewLoading();
   const reader = new FileReader();
   reader.onload = e => {
     editGraphicImg = e.target.result;
     const prev = document.getElementById('graphicPreview');
     if (prev) prev.innerHTML = `<img src="${editGraphicImg}" alt="graphic"/>`;
-    refreshAssetControls('graphic');
+    setTimeout(() => { hidePreviewLoading(); updatePreview(); }, 500);
   };
   reader.readAsDataURL(file);
 }
@@ -804,33 +872,27 @@ function clearLogo() {
   editLogoImg = null;
   const prev = document.getElementById('logoPreview');
   if (prev) prev.innerHTML = '<span style="font-size:0.65rem;color:#666">אין לוגו</span>';
-  refreshAssetControls('logo');
+  updatePreview();
 }
 function clearGraphic() {
   editGraphicImg = null;
   const prev = document.getElementById('graphicPreview');
   if (prev) prev.innerHTML = '<span style="font-size:0.65rem;color:#666">אין גרפיקה</span>';
-  refreshAssetControls('graphic');
-}
-function refreshAssetControls(type) {
-  // Re-render just the remove button area
-  const isLogo = type === 'logo';
-  const hasImg  = isLogo ? editLogoImg : editGraphicImg;
-  const existingBtn = document.querySelector(`.asset-upload-controls .btn-clear-asset`);
-  // Simple approach: just update the button existence next to upload
-  // The save function will capture the current state anyway
+  updatePreview();
 }
 function setLogoPlac(val) {
   editLogoPlac = val;
   document.querySelectorAll('#logoPlacOpts .placement-opt').forEach(el => {
     el.classList.toggle('active', el.textContent.trim() === (val === 'front' ? 'קדימה' : 'אחורה'));
   });
+  updatePreview();
 }
 function setGraphicPlac(val) {
   editGraphicPlac = val;
   document.querySelectorAll('#graphicPlacOpts .placement-opt').forEach(el => {
     el.classList.toggle('active', el.textContent.trim() === (val === 'front' ? 'קדימה' : 'אחורה'));
   });
+  updatePreview();
 }
 
 // ─── SEO ─────────────────────────────────────────
@@ -867,19 +929,17 @@ function getFormSnapshot() {
     name:         v('f-name'),
     price:        parseInt(v('f-price')) || 0,
     comparePrice: parseInt(v('f-compare-price')) || null,
-    color:        v('f-color-picker') || '#d4a843',
-    svgType:      editSvgType,
     badge:        editBadge,
     status:       v('f-status'),
     featured:     editFeatured,
   };
 }
 function updatePreview() {
-  const snap = getFormSnapshot();
+  const snap    = getFormSnapshot();
   const shirtEl = document.getElementById('previewShirt');
   const metaEl  = document.getElementById('previewMeta');
   if (!shirtEl || !metaEl) return;
-  shirtEl.innerHTML = getProductSVG(snap.svgType, snap.color, 180);
+  shirtEl.innerHTML = getShirtPreview(editLogoImg, editGraphicImg, 190);
   metaEl.innerHTML = `
     <div class="pm-name">${escHtml(snap.name || 'שם מוצר')}</div>
     <div class="pm-price">₪${snap.price}</div>

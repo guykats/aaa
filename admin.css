@@ -963,6 +963,37 @@ body {
 .admin-toast.error   { border-color: var(--danger);  color: #e74c3c; }
 .admin-toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ── PREVIEW LOADING BAR ────────────────────────── */
+.preview-loading-bar {
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
+  padding: 0.5rem 0;
+}
+.preview-loading-track {
+  width: 100%;
+  height: 3px;
+  background: var(--border2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.preview-loading-fill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius: 3px;
+  animation: previewSweep 1.1s ease-in-out infinite;
+}
+@keyframes previewSweep {
+  0%   { transform: translateX(-150%); }
+  100% { transform: translateX(350%); }
+}
+.preview-loading-text {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.preview-shirt.loading { opacity: 0.25; transition: opacity .2s; }
+
 /* ── UTILITIES ──────────────────────────────────── */
 .hidden { display: none !important; }
 .divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
