@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Heebo:wght@300;400;700&display=swap" rel="stylesheet" />
+  <!-- Stripe.js – loaded before body scripts -->
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
@@ -255,7 +257,7 @@
         <span>סה"כ</span>
         <span id="cartTotal">₪0</span>
       </div>
-      <button class="btn-checkout">המשך לתשלום</button>
+      <button class="btn-checkout" onclick="openCheckout()">המשך לתשלום</button>
     </div>
   </aside>
 
@@ -300,6 +302,104 @@
     </div>
   </footer>
 
+  <!-- ── CHECKOUT MODAL ───────────────────────────── -->
+  <div class="co-overlay" id="checkoutOverlay"></div>
+  <div class="co-modal" id="checkoutModal">
+    <div class="co-modal-inner">
+
+      <button class="co-close" onclick="closeCheckout()">✕</button>
+      <h2 class="co-title">
+        <span class="co-title-brand">TEMPLE3</span> · תשלום
+      </h2>
+
+      <!-- Success state -->
+      <div id="checkoutSuccess" class="co-success hidden">
+        <div class="co-success-icon">✓</div>
+        <h3>ההזמנה התקבלה!</h3>
+        <p>תקבל עדכון במייל כאשר החבילה תצא לדרך.</p>
+        <button class="co-btn-secondary" onclick="closeCheckout()">סגור</button>
+      </div>
+
+      <!-- Form + payment -->
+      <div id="checkoutFormWrap">
+
+        <!-- Order summary -->
+        <div class="co-summary">
+          <div class="co-summary-label">סיכום הזמנה</div>
+          <div id="coSummaryItems"></div>
+          <div class="co-divider"></div>
+          <div class="co-row co-row-muted">
+            <span>משלוח</span><span id="coShipping">—</span>
+          </div>
+          <div class="co-row co-row-total">
+            <span>סה"כ לתשלום</span><span id="coTotal">—</span>
+          </div>
+        </div>
+
+        <form id="checkoutForm" onsubmit="return false">
+
+          <!-- Shipping details -->
+          <div class="co-section-label">פרטי משלוח</div>
+          <div class="co-grid-2">
+            <div class="co-field">
+              <label>שם מלא</label>
+              <input id="co-name" type="text" required placeholder="ישראל ישראלי"/>
+            </div>
+            <div class="co-field">
+              <label>אימייל</label>
+              <input id="co-email" type="email" required placeholder="you@example.com"/>
+            </div>
+          </div>
+          <div class="co-field">
+            <label>כתובת</label>
+            <input id="co-address" type="text" required placeholder="הרצל 1"/>
+          </div>
+          <div class="co-grid-3">
+            <div class="co-field">
+              <label>עיר</label>
+              <input id="co-city" type="text" required placeholder="תל אביב"/>
+            </div>
+            <div class="co-field">
+              <label>מיקוד</label>
+              <input id="co-zip" type="text" required placeholder="6120001"/>
+            </div>
+            <div class="co-field">
+              <label>טלפון</label>
+              <input id="co-phone" type="tel" placeholder="050-0000000"/>
+            </div>
+          </div>
+          <div class="co-field">
+            <label>מדינה</label>
+            <select id="co-country">
+              <option value="IL">ישראל</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="AU">Australia</option>
+              <option value="CA">Canada</option>
+            </select>
+          </div>
+
+          <!-- Stripe Payment Element -->
+          <div class="co-section-label">פרטי תשלום</div>
+          <div id="stripePaymentEl" class="co-stripe-wrap"></div>
+
+          <div id="checkoutError" class="co-error"></div>
+
+          <button id="coPayBtn" class="co-pay-btn" type="submit">שלם</button>
+
+          <p class="co-secure-note">
+            🔒 התשלום מאובטח על ידי Stripe · לא נשמרים פרטי כרטיס
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+  <!-- ─────────────────────────────────────────────── -->
+
   <script src="app.js"></script>
+  <script src="checkout.js"></script>
 </body>
 </html>

@@ -360,6 +360,17 @@ function loadProducts() {
 function saveProductsToStorage() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(allProducts));
 }
+async function syncProductsToServer() {
+  const adminKey = localStorage.getItem('t3_admin_key');
+  if (!adminKey) return; // server sync only when key is configured
+  try {
+    await fetch('/api/admin/save-products', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body:    JSON.stringify({ products: allProducts }),
+    });
+  } catch (e) { /* server not running – silent, localStorage is the source of truth */ }
+}
 function nextId() {
   return allProducts.length ? Math.max(...allProducts.map(p => p.id)) + 1 : 1;
 }
@@ -663,7 +674,31 @@ function buildEditorHTML(p) {
       </div>
     `)}
 
-    <!-- 8. INTERNAL NOTES -->
+    <!-- 8. PRINTIFY -->
+    ${buildSection('printify', '🖨', 'Printify', `
+      <div class="field-row">
+        <label class="field-label">Printify Product ID</label>
+        <input id="f-printify-pid" class="field-input" type="text" style="direction:ltr"
+          value="${escHtml(p.printifyProductId||'')}" placeholder="5f3b8e2b3aced40ac8c3b456..."/>
+        <span class="field-hint">Printify → My Products → בחר מוצר → ID ב-URL</span>
+      </div>
+      <div class="field-row">
+        <label class="field-label">Variant IDs לפי מידה</label>
+        <div class="printify-variants">
+          ${ALL_SIZES.map(size => `
+            <div class="pv-row">
+              <span class="pv-size">${size}</span>
+              <input class="field-input pv-input" type="text" style="direction:ltr"
+                data-psize="${size}"
+                value="${escHtml((p.printifyVariants||{})[size]||'')}"
+                placeholder="Variant ID"/>
+            </div>`).join('')}
+        </div>
+        <span class="field-hint">Printify → My Products → מוצר → לחץ על variant → Copy ID</span>
+      </div>
+    `)}
+
+    <!-- 9. INTERNAL NOTES -->
     ${buildSection('notes', '🗒', 'הערות פנימיות', `
       <div class="field-row">
         <label class="field-label">הערות (לא מוצגות לקונים)</label>
@@ -990,10 +1025,17 @@ function saveProduct() {
     seoDesc:          document.getElementById('f-seo-desc')?.value?.trim() || '',
     slug:             v('f-slug') || toSlug(name),
     notes:            document.getElementById('f-notes')?.value?.trim() || '',
+    printifyProductId: v('f-printify-pid'),
+    printifyVariants: Object.fromEntries(
+      Array.from(document.querySelectorAll('.pv-input[data-psize]'))
+        .map(el => [el.dataset.psize, el.value.trim()])
+        .filter(([, val]) => val)
+    ),
     updatedAt:        new Date().toISOString(),
   };
 
   saveProductsToStorage();
+  syncProductsToServer();
   renderSidebar();
   showToast('המוצר נשמר בהצלחה ✓', 'success');
 }

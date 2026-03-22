@@ -994,6 +994,11 @@ body {
 }
 .preview-shirt.loading { opacity: 0.25; transition: opacity .2s; }
 
+/* ── PRINTIFY VARIANTS ──────────────────────────── */
+.printify-variants { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem; }
+.pv-row { display: grid; grid-template-columns: 36px 1fr; gap: 0.5rem; align-items: center; }
+.pv-size { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-align: center; }
+
 /* ── UTILITIES ──────────────────────────────────── */
 .hidden { display: none !important; }
 .divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
